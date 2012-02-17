@@ -1,0 +1,5 @@
+.DS_Store
+.rspec
+
+# Chef
+.chef/snielsen-client.pem
