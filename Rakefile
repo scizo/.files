@@ -3,14 +3,17 @@ require 'fileutils'
 task :default => 'link_to_home'
 
 def desired_files
-  files = ENV['FILES'] && ENV['FILES'].split(',') || (Dir.glob('*') - ['Rakefile'])
+  files = ENV['FILES'] && ENV['FILES'].split(',') || (Dir.glob('*') - ['Rakefile', '.gitignore'])
   files.each{|path| yield path}
 end
 
 desc "Link all files and folders to dotfiles in the home folder"
 task :link_to_home do
   desired_files do |path|
-    File.symlink File.expand_path(path), File.expand_path("~/.#{path}")
+    expanded_path = File.expand_path("~/.#{path}")
+    unless File.exists?(expanded_path)
+      File.symlink File.expand_path(path), File.expand_path("~/.#{path}")
+    end
   end
 end
 
