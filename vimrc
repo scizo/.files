@@ -89,15 +89,14 @@ if has("gui_running") " If this is a gui
   set go-=T           " Do not show the toolbar
 end
 
-" When on a fugitive tree or blob '..' navigates up to the parent tree or
-" commit
-"autocmd User fugitive
-"  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-"  \   nnoremap <buffer> .. :edit %:h<CR> |
-"  \ endif
+" When on a fugitive tree or blob '..' navigates up to the parent tree or commit
+autocmd User fugitive
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
 
 " Deletes fugitive buffers when no longer active
-"autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " Set the status line
-"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
