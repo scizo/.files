@@ -1,6 +1,9 @@
 " Ensure vim settings
 set nocompatible
 
+" Map leader to comma
+let mapleader = ';'
+
 " Set up Ctrl-P Fuzzy File Finder
 let g:ctrlp_map = '<Leader>t'
 let g:ctrlp_match_window_reversed = 0
