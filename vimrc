@@ -1,6 +1,11 @@
 " Ensure vim settings
 set nocompatible
 
+" Set up Ctrl-P Fuzzy File Finder
+let g:ctrlp_map = '<Leader>t'
+let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_extensions = ['tag']
+
 " Add all directories in bundle to runtimepath
 call pathogen#infect()
 
