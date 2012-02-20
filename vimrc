@@ -28,6 +28,9 @@ set shiftwidth=2
 set softtabstop=2
 set autoindent
 
+" I hate wrapping lines
+set nowrap
+
 " Setting for whitespace visualization
 set list
 set listchars=trail:·
