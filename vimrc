@@ -28,6 +28,10 @@ set shiftwidth=2
 set softtabstop=2
 set autoindent
 
+" Setting for whitespace visualization
+set list
+set listchars=trail:·
+
 " Always ensure there is a status bar
 set laststatus=2
 
