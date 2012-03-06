@@ -2,7 +2,8 @@
 set nocompatible
 
 " Map leader to comma
-let mapleader = ';'
+" let mapleader = ';'
+" I thought this would be nice, but forgot that ';' repeat f and t commands
 
 " Set up Ctrl-P Fuzzy File Finder
 let g:ctrlp_map = '<Leader>t'
@@ -33,7 +34,7 @@ set nowrap
 
 " Setting for whitespace visualization
 set list
-set listchars=trail:·
+set listchars=trail:·,tab:\ \ 
 
 " Always ensure there is a status bar
 set laststatus=2
