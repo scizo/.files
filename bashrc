@@ -47,5 +47,6 @@ export PS1='\[\e[1;36m\]\w\[\e[0m\]$(git_prompt)'
 export EDITOR=vim
 export HOMEBREW_LLVM=True
 
+[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
