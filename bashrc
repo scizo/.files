@@ -22,25 +22,31 @@ YELLOW="\e[1;33m"
 MAGENTA="\e[1;35m"
 GREEN="\e[1;32m"
 
-git_prompt() {
-  local g="$(__gitdir)"
-  if [ -n "$g" ]; then
-    local MINUTES_SINCE_LAST_COMMIT=`minutes_since_last_commit`
-    if [ "$MINUTES_SINCE_LAST_COMMIT" -gt 30 ]; then
-      local COLOR=${RED}
-    elif [ "$MINUTES_SINCE_LAST_COMMIT" -gt 10 ]; then
-      local COLOR=${YELLOW}
+if [ `type -t __gitdir`"" == 'function' ]; then
+  git_prompt() {
+    local g="$(__gitdir)"
+    if [ -n "$g" ]; then
+      local MINUTES_SINCE_LAST_COMMIT=`minutes_since_last_commit`
+      if [ "$MINUTES_SINCE_LAST_COMMIT" -gt 30 ]; then
+        local COLOR=${RED}
+      elif [ "$MINUTES_SINCE_LAST_COMMIT" -gt 10 ]; then
+        local COLOR=${YELLOW}
+      else
+        local COLOR=${GREEN}
+      fi
+      local SINCE_LAST_COMMIT="${COLOR}$(parse_git_time)${NORMAL}"
+      # The __git_ps1 function inserts the current git branch where %s is
+      local GIT_PROMPT=`__git_ps1 "${MAGENTA} → %s${NORMAL} ${SINCE_LAST_COMMIT}"`
+      echo "${GIT_PROMPT} "
     else
-      local COLOR=${GREEN}
+      echo -e " "
     fi
-    local SINCE_LAST_COMMIT="${COLOR}$(parse_git_time)${NORMAL}"
-    # The __git_ps1 function inserts the current git branch where %s is
-    local GIT_PROMPT=`__git_ps1 "${MAGENTA} → %s${NORMAL} ${SINCE_LAST_COMMIT}"`
-    echo "${GIT_PROMPT} "
-  else
+  }
+else
+  git_prompt() {
     echo -e " "
-  fi
-}
+  }
+fi
 
 export PS1='\[\e[1;36m\]\w\[\e[0m\]$(git_prompt)'
 
