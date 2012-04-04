@@ -42,6 +42,9 @@ set laststatus=2
 " Quickly show matching brackets on insert
 set showmatch
 
+" Show line numbers
+set number
+
 " Show matches as search is typed
 set incsearch
 
