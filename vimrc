@@ -108,14 +108,52 @@ if has("gui_running") " If this is a gui
   set go-=T           " Do not show the toolbar
 end
 
-" When on a fugitive tree or blob '..' navigates up to the parent tree or commit
-autocmd User fugitive
-  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
-  \ endif
+" Custom autocmds
+augroup myVimrc
+  " Clear all autocmds in the group
+  autocmd!
 
-" Deletes fugitive buffers when no longer active
-autocmd BufReadPost fugitive://* set bufhidden=delete
+  " Set preferred python tabing
+  autocmd FileType python set shiftwidth=4 softtabstop=4 expandtab
+
+  " When on a fugitive tree or blob '..' navigates up to the parent tree or commit
+  autocmd User fugitive
+    \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+    \   nnoremap <buffer> .. :edit %:h<CR> |
+    \ endif
+
+  " Deletes fugitive buffers when no longer active
+  autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
 
 " Set the status line
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+function! DoPrettyXML()
+  " save the filetype so we can restore it later
+  let l:origft = &ft
+  set ft=
+  " delete the xml header if it exists. This will
+  " permit us to surround the document with fake tags
+  " without creating invalid xml.
+  1s/<?xml .*?>//e
+  " insert fake tags around the entire document.
+  " This will permit us to pretty-format excerpts of
+  " XML that may contain multiple top-level elements.
+  0put ='<PrettyXML>'
+  $put ='</PrettyXML>'
+  silent %!xmllint --format -
+  " xmllint will insert an <?xml?> header. it's easy enough to delete
+  " if you don't want it.
+  " delete the fake tags
+  2d
+  $d
+  " restore the 'normal' indentation, which is one extra level
+  " too deep due to the extra tags we wrapped around the document.
+  silent %<
+  " back to home
+  1
+  " restore the filetype
+  exe "set ft=" . l:origft
+endfunction
+command! PrettyXML call DoPrettyXML()
