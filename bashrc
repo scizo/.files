@@ -22,11 +22,11 @@ function minutes_since_last_commit {
 }
 
 NORMAL="\e[0m"
-BLUE="\e[1;36m"
-RED="\e[1;31m"
-YELLOW="\e[1;33m"
+BLUE="\e[0;34m"
+RED="\e[0;31m"
+YELLOW="\e[0;33m"
 MAGENTA="\e[1;35m"
-GREEN="\e[1;32m"
+GREEN="\e[0;32m"
 
 if [ `type -t __gitdir`"" == 'function' ]; then
   git_prompt() {
@@ -54,7 +54,7 @@ else
   }
 fi
 
-export PS1='\[\e[1;36m\]\w\[\e[0m\]$(git_prompt)'
+export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
 
 export EDITOR=vim
 export HOMEBREW_USE_CLANG=True
