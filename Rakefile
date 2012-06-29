@@ -3,7 +3,7 @@ require 'fileutils'
 task :default => 'link_to_home'
 
 def desired_files
-  files = ENV['FILES'] && ENV['FILES'].split(',') || (Dir.glob('*') - ['Rakefile', '.gitignore'])
+  files = ENV['FILES'] && ENV['FILES'].split(',') || (Dir.glob('*') - ['Rakefile', '.gitignore', '.gitmodules'])
   files.each{|path| yield path}
 end
 

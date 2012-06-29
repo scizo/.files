@@ -20,7 +20,8 @@ end
 
 " Set the color scheme
 set t_Co=256
-color molokai
+set background=dark
+color solarized
 
 " Setting for tabs and indentation
 set expandtab

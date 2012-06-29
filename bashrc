@@ -1,6 +1,12 @@
+# aliases
+alias ls='ls -G'
+
 # bash completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   source `brew --prefix`/etc/bash_completion
+fi
+if [ -f `brew --prefix`/etc/profile.d/bash_completion.sh ]; then
+  source `brew --prefix`/etc/profile.d/bash_completion.sh
 fi
 
 parse_git_time() {
@@ -51,7 +57,7 @@ fi
 export PS1='\[\e[1;36m\]\w\[\e[0m\]$(git_prompt)'
 
 export EDITOR=vim
-export HOMEBREW_LLVM=True
+export HOMEBREW_USE_CLANG=True
 
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"

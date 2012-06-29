@@ -1,4 +1,4 @@
-export rvm_path="/Users/snielsen/.rvm"
+export rvm_path="${HOME}/.rvm"
 export rvm_pretty_print_flag=1
 export rvm_environments_path="${HOME}/.rvm/environments"
 export rvm_gems_path="${HOME}/.rvm/gems"
