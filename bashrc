@@ -1,3 +1,6 @@
+# Use vim style bash prompt
+#set -o vi
+
 # aliases
 alias ls='ls -G'
 
@@ -8,6 +11,7 @@ fi
 if [ -f `brew --prefix`/etc/profile.d/bash_completion.sh ]; then
   source `brew --prefix`/etc/profile.d/bash_completion.sh
 fi
+[[ -r .nvm/bash_completion ]] && . .nvm/bash_completion
 
 parse_git_time() {
   git log --pretty=format:'%cr' --date=relative -1
@@ -23,7 +27,7 @@ function minutes_since_last_commit {
 
 NORMAL="\e[0m"
 BLUE="\e[0;34m"
-RED="\e[0;31m"
+RED="\e[1;31m"
 YELLOW="\e[0;33m"
 MAGENTA="\e[1;35m"
 GREEN="\e[0;32m"
@@ -54,13 +58,20 @@ else
   }
 fi
 
+# マ I thought this was an interesting character so I am keeping it around for now
 export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
 
 export EDITOR=vim
-export HOMEBREW_USE_CLANG=True
+export HOMEBREW_CC="clang"
+export RBENV_SILENCE_WARNINGS=1
+export JRUBY_OPTS="--1.9"
 
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+eval "$(rbenv init -)"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=".bin:$PATH"
+
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

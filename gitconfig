@@ -1,7 +1,7 @@
 [alias]
   co = checkout
   dc = diff --cached
-  lg = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)%cr %C(blue)<%an>%C(reset)' --abbrev-commit --date=relative
+  lg = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%cr%C(yellow)%d%C(reset)\n'
   st = status
   start = flow feature start
   finish = flow feature finish
@@ -14,3 +14,7 @@
   email = scottnielsen5@gmail.com
 [core]
   excludesfile = ~/.gitignore
+[github]
+	user = scizo
+[push]
+	default = matching

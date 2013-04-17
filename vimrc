@@ -10,6 +10,13 @@ let g:ctrlp_map = '<Leader>t'
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_extensions = ['tag']
 
+" Use paredit shortmaps
+let g:paredit_leader = '<Leader>'
+let g:paredit_shortmaps = 1
+
+" Syntastic C++ options
+let g:syntastic_cpp_compiler_options = '-std=gnu++11 -Wall'
+
 " Add all directories in bundle to runtimepath
 call pathogen#infect()
 
@@ -105,6 +112,10 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" Page up and page down easier
+nmap <M-Space> <PageUp>
+nmap <Space> <PageDown>
+
 if has("gui_running") " If this is a gui
   set go-=T           " Do not show the toolbar
 end
@@ -115,7 +126,10 @@ augroup myVimrc
   autocmd!
 
   " Set preferred python tabing
-  autocmd FileType python set shiftwidth=4 softtabstop=4 expandtab
+  autocmd FileType python set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+
+  " Don't show trailing whitespace in a conque term buffer
+  autocmd FileType conque_term setlocal nolist
 
   " When on a fugitive tree or blob '..' navigates up to the parent tree or commit
   autocmd User fugitive
@@ -129,6 +143,28 @@ augroup END
 
 " Set the status line
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+" Tab autocompletion when the previous character is not whitespace
+" Inspired by SuperTab no configuration
+function! WillComplete()
+  let l:line = getline(".")
+  let l:col  = col(".")
+  let l:prev_char = strpart(l:line, l:col-2, 1)
+  if l:prev_char =~ '^\s*$'
+    return 0
+  else
+    return 1
+  endif
+endfunction
+
+function! TabComplete()
+  if WillComplete()
+    return "\<c-x>\<c-p>"
+  else
+    return "\<tab>"
+  endif
+endfunction
+imap <tab> <c-r>=TabComplete()<cr>
 
 function! DoPrettyXML()
   " save the filetype so we can restore it later
