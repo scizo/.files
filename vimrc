@@ -112,6 +112,10 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" Open new windows to the right or bottom
+set splitright
+set splitbelow
+
 " Page up and page down easier
 nmap <M-Space> <PageUp>
 nmap <Space> <PageDown>

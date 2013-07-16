@@ -4,6 +4,9 @@
 # aliases
 alias ls='ls -G'
 
+alias stagedb='ssh stage-db1.totalcareauto.com -t mysql -u root -D tca_stage'
+alias proddb='ssh db1.totalcareauto.com -t mysql -u root -D tca_production'
+
 # bash completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   source `brew --prefix`/etc/bash_completion
@@ -46,7 +49,7 @@ if [ `type -t __gitdir`"" == 'function' ]; then
       fi
       local SINCE_LAST_COMMIT="${COLOR}$(parse_git_time)${NORMAL}"
       # The __git_ps1 function inserts the current git branch where %s is
-      local GIT_PROMPT=`__git_ps1 "${MAGENTA} → %s${NORMAL} ${SINCE_LAST_COMMIT}"`
+      local GIT_PROMPT=`__git_ps1 "${MAGENTA} %s${NORMAL} ${SINCE_LAST_COMMIT}"`
       echo "${GIT_PROMPT} "
     else
       echo -e " "
@@ -59,6 +62,7 @@ else
 fi
 
 # マ I thought this was an interesting character so I am keeping it around for now
+export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
 export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
 
 export EDITOR=vim
