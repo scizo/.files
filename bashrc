@@ -6,6 +6,7 @@ alias ls='ls -G'
 
 alias stagedb='ssh stage-db1.totalcareauto.com -t mysql -u root -D tca_stage'
 alias proddb='ssh db1.totalcareauto.com -t mysql -u root -D tca_production'
+alias devdb='mysql -u root -D tca_development'
 
 # bash completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
@@ -63,12 +64,13 @@ fi
 
 # マ I thought this was an interesting character so I am keeping it around for now
 export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
-export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
 
+export PAGER=less
 export EDITOR=vim
 export HOMEBREW_CC="clang"
 export RBENV_SILENCE_WARNINGS=1
 export JRUBY_OPTS="--1.9"
+export LEDGER_FILE='/Users/snielsen/Dropbox/books.ledger'
 
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
@@ -76,6 +78,8 @@ eval "$(rbenv init -)"
 
 export PATH=".bin:$PATH"
 
+# racket install in /Applications
+export PATH="$PATH:/Applications/Racket v5.3.5/bin"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
