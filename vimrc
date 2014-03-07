@@ -6,12 +6,12 @@ set nocompatible
 " I thought this would be nice, but forgot that ';' repeat f and t commands
 
 " Set up Ctrl-P Fuzzy File Finder
-let g:ctrlp_map = '<Leader>t'
+let g:ctrlp_map = '<leader>t'
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_extensions = ['tag']
 
 " Use paredit shortmaps
-let g:paredit_leader = '<Leader>'
+let g:paredit_leader = '<leader>'
 let g:paredit_shortmaps = 1
 
 " Syntastic C++ options
@@ -22,8 +22,11 @@ call pathogen#infect()
 
 if &t_Co > 2 || has("gui_running") " If there is color support
   syntax on                        " Use syntax highlighting
-  set guifont=Menlo\ Regular:h14   " Set my font when using gui
+  set guifont=Osaka\ Regular:h14   " Set my font when using gui
 end
+
+" Use blowfish as the default encryption method
+set cryptmethod=blowfish
 
 " Set the color scheme
 set t_Co=256
@@ -63,8 +66,11 @@ set hlsearch
 set ignorecase
 set smartcase
 
-" Return to remove highlighted search fields
-nnoremap <CR> :nohlsearch<cr>
+" Leader a to remove highlighted search fields
+nnoremap <leader>a :nohlsearch<cr>
+
+" Leader b to redraw because I override <C-l> for window changing
+nnoremap <leader>b :redraw!<cr>
 
 " Large history
 set history=1000
@@ -132,8 +138,13 @@ augroup myVimrc
   " Set preferred python tabing
   autocmd FileType python set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 
+  autocmd FileType clojure map <leader>r :Require!<cr>
+
   " Don't show trailing whitespace in a conque term buffer
   autocmd FileType conque_term setlocal nolist
+
+  " Make sure nothing is written to ~/.viminfo when editing encrypted files
+  autocmd BufReadPre,FileReadPre *.med set viminfo=
 
   " When on a fugitive tree or blob '..' navigates up to the parent tree or commit
   autocmd User fugitive

@@ -4,10 +4,6 @@
 # aliases
 alias ls='ls -G'
 
-alias stagedb='ssh stage-db1.totalcareauto.com -t mysql -u root -D tca_stage'
-alias proddb='ssh db1.totalcareauto.com -t mysql -u root -D tca_production'
-alias devdb='mysql -u root -D tca_development'
-
 # bash completion
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   source `brew --prefix`/etc/bash_completion
@@ -23,18 +19,20 @@ parse_git_time() {
 
 function minutes_since_last_commit {
   now=`date +%s`
-  last_commit=`git log --pretty=format:'%at' -1`
+  last_commit=`git log --pretty=format:'%ct' -1`
   seconds_since_last_commit=$((now-last_commit))
   minutes_since_last_commit=$((seconds_since_last_commit/60))
   echo $minutes_since_last_commit
 }
 
-NORMAL="\e[0m"
-BLUE="\e[0;34m"
-RED="\e[1;31m"
-YELLOW="\e[0;33m"
-MAGENTA="\e[1;35m"
-GREEN="\e[0;32m"
+tput init
+
+NORMAL="\001$(tput sgr0)\002"
+BLUE="\001$(tput setaf 4)\002"
+RED="\001$(tput setaf 1; tput bold)\002"
+YELLOW="\001$(tput setaf 3)\002"
+MAGENTA="\001$(tput setaf 5; tput bold)\002"
+GREEN="\001$(tput setaf 2)\002"
 
 if [ `type -t __gitdir`"" == 'function' ]; then
   git_prompt() {
@@ -51,19 +49,22 @@ if [ `type -t __gitdir`"" == 'function' ]; then
       local SINCE_LAST_COMMIT="${COLOR}$(parse_git_time)${NORMAL}"
       # The __git_ps1 function inserts the current git branch where %s is
       local GIT_PROMPT=`__git_ps1 "${MAGENTA} %s${NORMAL} ${SINCE_LAST_COMMIT}"`
-      echo "${GIT_PROMPT} "
+      echo "${GIT_PROMPT}"
     else
-      echo -e " "
+      echo ""
     fi
   }
 else
   git_prompt() {
-    echo -e " "
+    echo ""
   }
 fi
 
-# マ I thought this was an interesting character so I am keeping it around for now
-export PS1='\[\e[0;36m\]\w\[\e[0m\]$(git_prompt)'
+#export PS1='\[$(tput setaf 4)\]\w\[$(tput sgr0)\]$(git_prompt)\[$(tput setaf 6)\] ∇  \[$(tput sgr0)\]'
+export PS1='\[$(tput setaf 6)\]\w\[$(tput sgr0)\]$(git_prompt) '
+
+export HISTSIZE=20000
+shopt -s histappend
 
 export PAGER=less
 export EDITOR=vim
@@ -71,15 +72,10 @@ export HOMEBREW_CC="clang"
 export RBENV_SILENCE_WARNINGS=1
 export JRUBY_OPTS="--1.9"
 export LEDGER_FILE='/Users/snielsen/Dropbox/books.ledger'
+export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
 eval "$(rbenv init -)"
 
 export PATH=".bin:$PATH"
-
-# racket install in /Applications
-export PATH="$PATH:/Applications/Racket v5.3.5/bin"
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"

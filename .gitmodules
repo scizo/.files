@@ -40,3 +40,15 @@
 [submodule "vim/bundle/vim-paredit"]
 	path = vim/bundle/vim-paredit
 	url = git://github.com/vim-scripts/paredit.vim.git
+[submodule "vim/bundle/vim-airline"]
+	path = vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline.git
+[submodule "vim/bundle/moonscript-vim"]
+	path = vim/bundle/moonscript-vim
+	url = git@github.com:leafo/moonscript-vim.git
+[submodule "vim/bundle/vim-golang"]
+	path = vim/bundle/vim-golang
+	url = git@github.com:jnwhiteh/vim-golang.git
+[submodule "vim-scala"]
+	path = vim-scala
+	url = git@github.com:derekwyatt/vim-scala.git

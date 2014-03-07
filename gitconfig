@@ -15,9 +15,9 @@
 [core]
   excludesfile = ~/.gitignore
 [github]
-	user = scizo
+  user = scizo
 [push]
-	default = matching
+  default = matching
 [filter "trailingwhitespace"]
   clean = sed 's/[ \t]*$//'
   smudge = cat
