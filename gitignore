@@ -1,10 +1,8 @@
 .DS_Store
 .rspec
-
 .bundle
 .bin
+.nrepl-port
 
-tags
 
-# Chef
-.chef/snielsen-client.pem
+bin/lein

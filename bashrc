@@ -13,6 +13,18 @@ if [ -f `brew --prefix`/etc/profile.d/bash_completion.sh ]; then
 fi
 [[ -r .nvm/bash_completion ]] && . .nvm/bash_completion
 
+for f in "$HOME"/.bash.d/*; do
+  [ -r "$f" ] && source "$f"
+done
+
+function csv_summary {
+  echo "summary(read.csv('$1'))" | r --slave --vanilla --quiet --no-save
+}
+
+function tsv_summary {
+  echo "summary(read.csv('$1',sep='\t'))" | r --slave --vanilla --quiet --no-save
+}
+
 parse_git_time() {
   git log --pretty=format:'%cr' --date=relative -1
 }
@@ -70,12 +82,20 @@ export PAGER=less
 export EDITOR=vim
 export HOMEBREW_CC="clang"
 export RBENV_SILENCE_WARNINGS=1
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 export JRUBY_OPTS="--1.9"
-export LEDGER_FILE='/Users/snielsen/Dropbox/books.ledger'
+export LEDGER_FILE='$HOME/Dropbox/books.ledger'
 export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 
+export GPGKEY=B40CC37E
+
+eval "$($HOME/.rbl/bin/rbl init -)"
+#eval "$(pyenv init -)"
+#eval "$(rbenv init -)"
+
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
-[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
-eval "$(rbenv init -)"
 
 export PATH=".bin:$PATH"
+
+# OPAM configuration
+. /Users/scott/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true

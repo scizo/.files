@@ -2,28 +2,47 @@
 set nocompatible
 
 " Map leader to comma
+" I thought this would be nice, but forgot that ';' repeats f and t commands
 " let mapleader = ';'
-" I thought this would be nice, but forgot that ';' repeat f and t commands
+
+" profile start profile.log
+" profile func *
+" profile file *
 
 " Set up Ctrl-P Fuzzy File Finder
 let g:ctrlp_map = '<leader>t'
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_extensions = ['tag']
+let g:ctrlp_switch_buffer = 'v'
 
 " Use paredit shortmaps
 let g:paredit_leader = '<leader>'
 let g:paredit_shortmaps = 1
 
-" Syntastic C++ options
+" Syntastic options
 let g:syntastic_cpp_compiler_options = '-std=gnu++11 -Wall'
+let g:syntastic_filetype_map = {'pmml': 'xml'}
+let g:syntastic_mode_map = {'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html']}
+
+" Airline config
+let g:airline_powerline_fonts = 1
+let g:airline_detect_paste = 1
+let g:airline#extensions#bufferline#enabled = 1
+
+" vim-leiningen settings
+let g:leiningen_no_auto_repl=1
 
 " Add all directories in bundle to runtimepath
 call pathogen#infect()
+
 
 if &t_Co > 2 || has("gui_running") " If there is color support
   syntax on                        " Use syntax highlighting
   set guifont=Osaka\ Regular:h14   " Set my font when using gui
 end
+
+" Need to look more into how to use hidden
+" set hidden
 
 " Use blowfish as the default encryption method
 set cryptmethod=blowfish
@@ -65,6 +84,10 @@ set hlsearch
 " Searches are case-sensitive only if they contain upper-case
 set ignorecase
 set smartcase
+
+" Use ctrl-p to toggle paste mode in normal and insert modes
+nnoremap <c-p> :set invpaste paste?<cr>
+set pastetoggle=<c-p>
 
 " Leader a to remove highlighted search fields
 nnoremap <leader>a :nohlsearch<cr>
@@ -135,10 +158,11 @@ augroup myVimrc
   " Clear all autocmds in the group
   autocmd!
 
-  " Set preferred python tabing
+  " Set preferred alternate tabing for some filetypes
   autocmd FileType python set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType html set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 
-  autocmd FileType clojure map <leader>r :Require!<cr>
+  autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
 
   " Don't show trailing whitespace in a conque term buffer
   autocmd FileType conque_term setlocal nolist
@@ -174,7 +198,7 @@ endfunction
 
 function! TabComplete()
   if WillComplete()
-    return "\<c-x>\<c-p>"
+    return "\<c-x>\<c-o>"
   else
     return "\<tab>"
   endif

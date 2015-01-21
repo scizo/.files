@@ -1,12 +1,9 @@
 [alias]
   co = checkout
   dc = diff --cached
-  lg = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%cr%C(yellow)%d%C(reset)\n'
+  lg = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%ar%C(yellow)%d%C(reset)\n'
   st = status
-  start = flow feature start
-  finish = flow feature finish
-  rstart = flow release start
-  rfinish = flow release finish
+  pr = remote prune
 [color]
   ui = auto
 [user]
@@ -17,7 +14,7 @@
 [github]
   user = scizo
 [push]
-  default = matching
+  default = upstream
 [filter "trailingwhitespace"]
   clean = sed 's/[ \t]*$//'
   smudge = cat
