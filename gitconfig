@@ -18,3 +18,7 @@
 [filter "trailingwhitespace"]
   clean = sed 's/[ \t]*$//'
   smudge = cat
+[hub]
+  host = code.redbrainlabs.com
+[credential]
+  helper = osxkeychain

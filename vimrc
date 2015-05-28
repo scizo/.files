@@ -185,25 +185,25 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " Tab autocompletion when the previous character is not whitespace
 " Inspired by SuperTab no configuration
-function! WillComplete()
-  let l:line = getline(".")
-  let l:col  = col(".")
-  let l:prev_char = strpart(l:line, l:col-2, 1)
-  if l:prev_char =~ '^\s*$'
-    return 0
-  else
-    return 1
-  endif
-endfunction
-
-function! TabComplete()
-  if WillComplete()
-    return "\<c-x>\<c-o>"
-  else
-    return "\<tab>"
-  endif
-endfunction
-imap <tab> <c-r>=TabComplete()<cr>
+"function! WillComplete()
+"  let l:line = getline(".")
+"  let l:col  = col(".")
+"  let l:prev_char = strpart(l:line, l:col-2, 1)
+"  if l:prev_char =~ '^\s*$'
+"    return 0
+"  else
+"    return 1
+"  endif
+"endfunction
+"
+"function! TabComplete()
+"  if WillComplete()
+"    return "\<c-x>\<c-o>"
+"  else
+"    return "\<tab>"
+"  endif
+"endfunction
+"imap <tab> <c-r>=TabComplete()<cr>
 
 function! DoPrettyXML()
   " save the filetype so we can restore it later
