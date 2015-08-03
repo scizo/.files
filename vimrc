@@ -86,8 +86,8 @@ set ignorecase
 set smartcase
 
 " Use ctrl-p to toggle paste mode in normal and insert modes
-nnoremap <c-p> :set invpaste paste?<cr>
-set pastetoggle=<c-p>
+"nnoremap <c-p> :set invpaste paste?<cr>
+"set pastetoggle=<c-p>
 
 " Leader a to remove highlighted search fields
 nnoremap <leader>a :nohlsearch<cr>
