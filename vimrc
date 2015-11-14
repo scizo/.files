@@ -19,6 +19,10 @@ let g:ctrlp_switch_buffer = 'v'
 let g:paredit_leader = '<leader>'
 let g:paredit_shortmaps = 1
 
+" vim-fsharp settings
+let g:fsharpbinding_debug = 1
+let g:fsharp_completion_helptext = 1
+
 " Syntastic options
 let g:syntastic_cpp_compiler_options = '-std=gnu++11 -Wall'
 let g:syntastic_filetype_map = {'pmml': 'xml'}
@@ -32,6 +36,10 @@ let g:airline#extensions#bufferline#enabled = 1
 " vim-leiningen settings
 let g:leiningen_no_auto_repl=1
 
+" vim-gnupg settings
+let g:GPGExecutable = 'gpg2'
+let g:GPGDefaultRecipients = ['Scott Nielsen <scottnielsen5@gmail.com>']
+
 " Add all directories in bundle to runtimepath
 call pathogen#infect()
 
@@ -43,9 +51,6 @@ end
 
 " Need to look more into how to use hidden
 " set hidden
-
-" Use blowfish as the default encryption method
-set cryptmethod=blowfish
 
 " Set the color scheme
 set t_Co=256
@@ -94,6 +99,9 @@ nnoremap <leader>a :nohlsearch<cr>
 
 " Leader b to redraw because I override <C-l> for window changing
 nnoremap <leader>b :redraw!<cr>
+
+" Leader s to quickly turn on spell check
+nnoremap <leader>s :setlocal spell spelllang=en_us<cr>
 
 " Large history
 set history=1000
@@ -163,6 +171,7 @@ augroup myVimrc
   autocmd FileType html set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 
   autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
+  autocmd FileType clojure map <leader>e :Eval (dev/reset)<cr>
 
   " Don't show trailing whitespace in a conque term buffer
   autocmd FileType conque_term setlocal nolist

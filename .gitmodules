@@ -46,21 +46,30 @@
 [submodule "vim/bundle/vim-golang"]
 	path = vim/bundle/vim-golang
 	url = git@github.com:jnwhiteh/vim-golang.git
-[submodule "vim-scala"]
-	path = vim-scala
-	url = git@github.com:derekwyatt/vim-scala.git
 [submodule "vim/bundle/vim-colorschemes"]
 	path = vim/bundle/vim-colorschemes
 	url = git@github.com:flazz/vim-colorschemes.git
-[submodule "vim/bundle/vim-leiningen"]
-	path = vim/bundle/vim-leiningen
-	url = git@github.com:tpope/vim-leiningen.git
 [submodule "vim/bundle/vim-dispatch"]
 	path = vim/bundle/vim-dispatch
 	url = git@github.com:tpope/vim-dispatch.git
 [submodule "vim/bundle/csapprox"]
 	path = vim/bundle/csapprox
 	url = git@github.com:godlygeek/csapprox.git
-[submodule "vim/bundle/vim-boot"]
-	path = vim/bundle/vim-boot
-	url = git@github.com:rkneufeld/vim-boot.git
+[submodule "vim/bundle/vim-gnupg"]
+	path = vim/bundle/vim-gnupg
+	url = git@github.com:jamessan/vim-gnupg.git
+[submodule "vim/bundle/vim-hdevtools"]
+	path = vim/bundle/vim-hdevtools
+	url = https://github.com/bitc/vim-hdevtools.git
+[submodule "vim/bundle/vim-surround"]
+	path = vim/bundle/vim-surround
+	url = git@github.com:tpope/vim-surround.git
+[submodule "vim/bundle/vim-projectionist"]
+	path = vim/bundle/vim-projectionist
+	url = git@github.com:tpope/vim-projectionist.git
+[submodule "vim/bundle/vim-salve"]
+	path = vim/bundle/vim-salve
+	url = git@github.com:tpope/vim-salve.git
+[submodule "vim/bundle/vim-fsharp"]
+	path = vim/bundle/vim-fsharp
+	url = git@github.com:fsharp/vim-fsharp.git

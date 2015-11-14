@@ -19,6 +19,6 @@
   clean = sed 's/[ \t]*$//'
   smudge = cat
 [hub]
-  host = code.redbrainlabs.com
+  host = code.savvysherpa.com
 [credential]
   helper = osxkeychain
