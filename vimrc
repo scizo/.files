@@ -168,6 +168,7 @@ augroup myVimrc
 
   " Set preferred alternate tabing for some filetypes
   autocmd FileType python set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType pyrex set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
   autocmd FileType html set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 
   autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
@@ -175,9 +176,6 @@ augroup myVimrc
 
   " Don't show trailing whitespace in a conque term buffer
   autocmd FileType conque_term setlocal nolist
-
-  " Make sure nothing is written to ~/.viminfo when editing encrypted files
-  autocmd BufReadPre,FileReadPre *.med set viminfo=
 
   " When on a fugitive tree or blob '..' navigates up to the parent tree or commit
   autocmd User fugitive
@@ -187,6 +185,9 @@ augroup myVimrc
 
   " Deletes fugitive buffers when no longer active
   autocmd BufReadPost fugitive://* set bufhidden=delete
+
+  " Set build.boot to be clojure files
+  autocmd BufRead,BufNewFile build.boot set filetype=clojure
 augroup END
 
 " Set the status line

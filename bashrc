@@ -74,20 +74,22 @@ else
   }
 fi
 
+complete -C aws_completer aws
+
 #export PS1='\[$(tput setaf 4)\]\w\[$(tput sgr0)\]$(git_prompt)\[$(tput setaf 6)\] ∇  \[$(tput sgr0)\]'
 export PS1='\[$(tput setaf 6)\]\w\[$(tput sgr0)\]$(git_prompt) '
 
 export HISTSIZE=20000
 shopt -s histappend
 
-export PAGER=less
+export PAGER="less -R"
 export EDITOR=vim
 export HOMEBREW_CC="clang"
 export RBENV_SILENCE_WARNINGS=1
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export JRUBY_OPTS="--1.9"
 export LEDGER_FILE=$HOME/Dropbox/books.ledger
-export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
 export GPGKEY=B40CC37E
 
@@ -104,7 +106,7 @@ export PATH=/opt/anaconda/bin:$PATH
 
 export PATH=".bin:$PATH"
 export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:MaxPermSize=128m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none"
-export BOOT_CLOJURE_VERSION="1.7.0"
+export BOOT_CLOJURE_VERSION="1.8.0"
 export SBT_OPTS="-XX:MaxPermSize=256m -Xmx1024m"
 
 #export ANDROID_HOME=/usr/local/opt/android-sdk
