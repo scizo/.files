@@ -7,11 +7,13 @@ alias ls='ls -G'
 alias journal='vim $HOME/Dropbox/journal/`date "+%Y-%m-%d"`.txt.asc'
 
 # bash completion
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-  source `brew --prefix`/etc/bash_completion
-fi
-if [ -f `brew --prefix`/etc/profile.d/bash_completion.sh ]; then
-  source `brew --prefix`/etc/profile.d/bash_completion.sh
+if [ -e /usr/local/bin/brew ]; then
+  if [ -f `brew --prefix`/etc/bash_completion ]; then
+    source `brew --prefix`/etc/bash_completion
+  fi
+  if [ -f `brew --prefix`/etc/profile.d/bash_completion.sh ]; then
+    source `brew --prefix`/etc/profile.d/bash_completion.sh
+  fi
 fi
 [[ -r .nvm/bash_completion ]] && . .nvm/bash_completion
 
@@ -47,6 +49,26 @@ RED="\001$(tput setaf 1; tput bold)\002"
 YELLOW="\001$(tput setaf 3)\002"
 MAGENTA="\001$(tput setaf 5; tput bold)\002"
 GREEN="\001$(tput setaf 2)\002"
+
+__gitdir ()
+{
+  if [ -z "${1-}" ]; then
+    if [ -n "${__git_dir-}" ]; then
+      echo "$__git_dir"
+    elif [ -n "${GIT_DIR-}" ]; then
+      test -d "${GIT_DIR-}" || return 1
+      echo "$GIT_DIR"
+    elif [ -d .git ]; then
+      echo .git
+    else
+      git rev-parse --git-dir 2>/dev/null
+    fi
+  elif [ -d "$1/.git" ]; then
+    echo "$1/.git"
+  else
+    echo "$1"
+  fi
+}
 
 if [ `type -t __gitdir`"" == 'function' ]; then
   git_prompt() {
@@ -89,11 +111,16 @@ export RBENV_SILENCE_WARNINGS=1
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export JRUBY_OPTS="--1.9"
 export LEDGER_FILE=$HOME/Dropbox/books.ledger
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+
+if [ -e /usr/libexec/java_home ]; then
+  export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+fi
 
 export GPGKEY=B40CC37E
 
-eval "$($HOME/.rbl/bin/rbl init -)"
+if [ -e "$HOME/.rbl/bin/rbl" ]; then
+  eval "$($HOME/.rbl/bin/rbl init -)"
+fi
 #eval "$(pyenv init -)"
 #eval "$(rbenv init -)"
 
@@ -104,7 +131,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 export PATH=/opt/anaconda/bin:$PATH
 
-export PATH=".bin:$PATH"
+export PATH=".bin:$HOME/bin:$PATH"
 export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:MaxPermSize=128m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none"
 export BOOT_CLOJURE_VERSION="1.8.0"
 export SBT_OPTS="-XX:MaxPermSize=256m -Xmx1024m"
