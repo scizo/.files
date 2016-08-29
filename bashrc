@@ -132,8 +132,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH=/opt/anaconda/bin:$PATH
 
 export PATH=".bin:$HOME/bin:$PATH"
-export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:MaxPermSize=128m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none"
-export BOOT_CLOJURE_VERSION="1.8.0"
+export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none"
+#export BOOT_CLOJURE_VERSION="1.7.0"
 export SBT_OPTS="-XX:MaxPermSize=256m -Xmx1024m"
 
 #export ANDROID_HOME=/usr/local/opt/android-sdk
