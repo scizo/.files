@@ -3,16 +3,17 @@
 
 # aliases
 alias ls='ls -G'
+alias kc=kubectl
 
 alias journal='vim $HOME/Dropbox/journal/`date "+%Y-%m-%d"`.txt.asc'
 
 # bash completion
 if [ -e /usr/local/bin/brew ]; then
-  if [ -f `brew --prefix`/etc/bash_completion ]; then
-    source `brew --prefix`/etc/bash_completion
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    source $(brew --prefix)/etc/bash_completion
   fi
-  if [ -f `brew --prefix`/etc/profile.d/bash_completion.sh ]; then
-    source `brew --prefix`/etc/profile.d/bash_completion.sh
+  if [ -f $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
+    source $(brew --prefix)/etc/profile.d/bash_completion.sh
   fi
 fi
 [[ -r .nvm/bash_completion ]] && . .nvm/bash_completion
@@ -123,13 +124,19 @@ if [ -e "$HOME/.rbl/bin/rbl" ]; then
 fi
 #eval "$(pyenv init -)"
 #eval "$(rbenv init -)"
+eval $(direnv hook bash)
 
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 
 # stack (haskell) installs bins to ~/.local/bin
 export PATH="$HOME/.local/bin:$PATH"
 
-export PATH=/opt/anaconda/bin:$PATH
+export PATH=$PATH:/opt/google-cloud-sdk/bin
+source /opt/google-cloud-sdk/completion.bash.inc
+source <(kubectl completion bash)
+
+export PATH=$PATH:/opt/anaconda/bin
+export PATH=$PATH:$HOME/.go/bin
 
 export PATH=".bin:$HOME/bin:$PATH"
 export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none"

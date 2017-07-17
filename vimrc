@@ -15,10 +15,6 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_switch_buffer = 'v'
 
-" Use paredit shortmaps
-let g:paredit_leader = '<leader>'
-let g:paredit_shortmaps = 1
-
 " vim-fsharp settings
 let g:fsharpbinding_debug = 1
 let g:fsharp_completion_helptext = 1
@@ -33,8 +29,8 @@ let g:airline_powerline_fonts = 1
 let g:airline_detect_paste = 1
 let g:airline#extensions#bufferline#enabled = 1
 
-" vim-leiningen settings
-let g:leiningen_no_auto_repl=1
+" vim-salve settings
+let g:salve_auto_start_repl = 1
 
 " vim-gnupg settings
 let g:GPGExecutable = 'gpg2'
