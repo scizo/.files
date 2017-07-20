@@ -24,8 +24,7 @@ let g:syntastic_cpp_compiler_options = '-std=gnu++11 -Wall'
 let g:syntastic_filetype_map = {'pmml': 'xml'}
 let g:syntastic_mode_map = {'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html']}
 
-" Airline config
-let g:airline_powerline_fonts = 1
+" Airline config let g:airline_powerline_fonts = 1
 let g:airline_detect_paste = 1
 let g:airline#extensions#bufferline#enabled = 1
 
@@ -35,6 +34,21 @@ let g:salve_auto_start_repl = 1
 " vim-gnupg settings
 let g:GPGExecutable = 'gpg2'
 let g:GPGDefaultRecipients = ['Scott Nielsen <scottnielsen5@gmail.com>']
+
+" vim-sexp custom mappings
+let g:sexp_insert_after_wrap = 0
+let g:sexp_mappings = {
+    \ 'sexp_round_head_wrap_element': 'W',
+    \ 'sexp_splice_list': 'S',
+    \ 'sexp_swap_list_backward': 'Ó',
+    \ 'sexp_swap_list_forward': 'Ô',
+    \ 'sexp_swap_element_backward': '',
+    \ 'sexp_swap_element_forward': 'Ò',
+    \ 'sexp_emit_head_element': '∆',
+    \ 'sexp_emit_tail_element': '˚',
+    \ 'sexp_capture_prev_element': '˙',
+    \ 'sexp_capture_next_element': '¬'
+    \ }
 
 " Add all directories in bundle to runtimepath
 call pathogen#infect()
