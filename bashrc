@@ -3,20 +3,19 @@
 
 # aliases
 alias ls='ls -G'
-alias kc=kubectl
 
 alias journal='vim $HOME/Dropbox/journal/`date "+%Y-%m-%d"`.txt.asc'
 
+if command -v nvim >/dev/null 2>&1; then
+  alias vim=nvim
+fi
+
 # bash completion
-if [ -e /usr/local/bin/brew ]; then
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    source $(brew --prefix)/etc/bash_completion
-  fi
-  if [ -f $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
-    source $(brew --prefix)/etc/profile.d/bash_completion.sh
+if command -v brew >/dev/null 2>&1; then
+  if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+    . $(brew --prefix)/share/bash-completion/bash_completion
   fi
 fi
-[[ -r .nvm/bash_completion ]] && . .nvm/bash_completion
 
 for f in "$HOME"/.bash.d/*; do
   [ -r "$f" ] && source "$f"
@@ -102,11 +101,12 @@ complete -C aws_completer aws
 #export PS1='\[$(tput setaf 4)\]\w\[$(tput sgr0)\]$(git_prompt)\[$(tput setaf 6)\] ∇  \[$(tput sgr0)\]'
 export PS1='\[$(tput setaf 6)\]\w\[$(tput sgr0)\]$(git_prompt) '
 
+export HISTCONTROL=ignorespace
 export HISTSIZE=20000
 shopt -s histappend
 
 export PAGER="less -R"
-export EDITOR=vim
+export EDITOR=nvim
 export HOMEBREW_CC="clang"
 export RBENV_SILENCE_WARNINGS=1
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -119,14 +119,7 @@ fi
 
 export GPGKEY=B40CC37E
 
-if [ -e "$HOME/.rbl/bin/rbl" ]; then
-  eval "$($HOME/.rbl/bin/rbl init -)"
-fi
-#eval "$(pyenv init -)"
-#eval "$(rbenv init -)"
 eval $(direnv hook bash)
-
-[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 
 # stack (haskell) installs bins to ~/.local/bin
 export PATH="$HOME/.local/bin:$PATH"
@@ -135,7 +128,7 @@ export PATH=$PATH:/opt/google-cloud-sdk/bin
 source /opt/google-cloud-sdk/completion.bash.inc
 source <(kubectl completion bash)
 
-export PATH=$PATH:/opt/anaconda/bin
+export PATH=$HOME/.miniconda3/bin:$PATH
 export PATH=$PATH:$HOME/.go/bin
 
 export PATH=".bin:$HOME/bin:$PATH"
@@ -150,3 +143,13 @@ export WECHALLTOKEN=DF7F8-947BA-ACF55-89C1A-0A48E-6C80E
 
 # OPAM configuration
 . /Users/scott/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+# added by travis gem
+[ -f /Users/scott.nielsen/.travis/travis.sh ] && source /Users/scott.nielsen/.travis/travis.sh
+
+export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+export PATH="$PATH:$HOME/.cargo/bin"
+
+export SKIP_PLATELET_API_CHECK=1
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -94,3 +94,9 @@
 [submodule "vim/bundle/vim-sexp"]
 	path = vim/bundle/vim-sexp
 	url = git@github.com:guns/vim-sexp.git
+[submodule "vim/bundle/vim-rhubarb"]
+	path = vim/bundle/vim-rhubarb
+	url = git@github.com:tpope/vim-rhubarb.git
+[submodule "vim/bundle/node-vim"]
+	path = vim/bundle/node-vim
+	url = git://github.com/arcticicestudio/nord-vim.git

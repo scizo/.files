@@ -13,7 +13,7 @@ set nocompatible
 let g:ctrlp_map = '<leader>t'
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_extensions = ['tag']
-let g:ctrlp_switch_buffer = 'v'
+let g:ctrlp_switch_buffer = 'h'
 
 " vim-fsharp settings
 let g:fsharpbinding_debug = 1
@@ -24,7 +24,8 @@ let g:syntastic_cpp_compiler_options = '-std=gnu++11 -Wall'
 let g:syntastic_filetype_map = {'pmml': 'xml'}
 let g:syntastic_mode_map = {'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html']}
 
-" Airline config let g:airline_powerline_fonts = 1
+" Airline config
+let g:airline_powerline_fonts = 1
 let g:airline_detect_paste = 1
 let g:airline#extensions#bufferline#enabled = 1
 
@@ -80,6 +81,9 @@ set nowrap
 " Setting for whitespace visualization
 set list
 set listchars=trail:·,tab:\ \ 
+
+" Remove pipes from vertical splits
+set fillchars+=vert:\ 
 
 " Always ensure there is a status bar
 set laststatus=2
@@ -180,6 +184,7 @@ augroup myVimrc
   autocmd FileType python set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
   autocmd FileType pyrex set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
   autocmd FileType html set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType yaml set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
   autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
   autocmd FileType clojure map <leader>e :Eval (dev/reset)<cr>
