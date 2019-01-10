@@ -19,10 +19,10 @@ for file in $files; do
   fi
 done
 
-if [ -e "$HOME/.config/nvim/init.vim"]; then
+if [ -e "$HOME/.config/nvim/init.vim" ]; then
   echo ".config/nvim/init.vim exists ... skipping"
 else
-  echo "linking $file"
+  echo "linking init.vim"
   mkdir -p $HOME/.config/nvim
   ln -s $dir/init.vim $HOME/.config/nvim/init.vim
 fi
