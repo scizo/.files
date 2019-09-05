@@ -6,6 +6,25 @@ alias ls='ls -G'
 
 alias journal='vim $HOME/Dropbox/journal/`date "+%Y-%m-%d"`.txt.asc'
 
+alias cl='env_name=$(cat environment.yml | shyaml get-value name); conda activate $env_name && echo activated $env_name'
+
+alias tn='tmux new-session -s'
+alias tl='tmux list-sessions'
+alias ta='tmux attach -t'
+
+_tmux_alias_completions()
+{
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+
+  COMPREPLY=($(compgen -W "$(tmux list-sessions | sed -E 's/([^\:]*):.*/\1/')" -- "${COMP_WORDS[1]}"))
+}
+
+complete -F _tmux_alias_completions ta
+
+alias kc='kubectl'
+
 if command -v nvim >/dev/null 2>&1; then
   alias vim=nvim
 fi
@@ -101,9 +120,11 @@ complete -C aws_completer aws
 
 export PS1='${CYAN}\w${NORMAL}$(git_prompt) '
 
-export HISTCONTROL=ignorespace
-export HISTSIZE=20000
+export HISTCONTROL=ignoreboth # ignorespace and ignoredups
+export HISTIGNORE='ls:bg:fg:history'
+export HISTSIZE=200000
 shopt -s histappend
+shopt -s cmdhist
 
 export PAGER="less -R"
 export EDITOR=nvim
@@ -114,25 +135,27 @@ export JRUBY_OPTS="--1.9"
 export LEDGER_FILE=$HOME/Dropbox/books.ledger
 
 if [ -e /usr/libexec/java_home ]; then
-  export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+  export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 fi
 
 export GPGKEY=B40CC37E
 
-eval $(direnv hook bash)
+#eval $(direnv hook bash)
 
 # stack (haskell) installs bins to ~/.local/bin
 export PATH="$HOME/.local/bin:$PATH"
 
 export PATH=$PATH:/opt/google-cloud-sdk/bin
 source /opt/google-cloud-sdk/completion.bash.inc
+
 source <(kubectl completion bash)
+eval $(complete | grep kubectl | sed s/kubectl$/kc/)
 
 export PATH=$HOME/.miniconda3/bin:$PATH
 export PATH=$PATH:$HOME/.go/bin
 
 export PATH=".bin:$HOME/bin:$PATH"
-export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xverify:none"
+export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+CMSClassUnloadingEnabled -Xverify:none"
 #export BOOT_CLOJURE_VERSION="1.7.0"
 export SBT_OPTS="-XX:MaxPermSize=256m -Xmx1024m"
 
@@ -150,6 +173,14 @@ export WECHALLTOKEN=DF7F8-947BA-ACF55-89C1A-0A48E-6C80E
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 export PATH="$PATH:$HOME/.cargo/bin"
 
+export NPM_PACKAGES="$HOME/.npm-packages"
+export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+export PATH="$PATH:$HOME/.npm-packages/bin"
+
 export SKIP_PLATELET_API_CHECK=1
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+source $HOME/.griphook/env
+
+KT_BROKERS=pkc-ep8k4.us-east4.gcp.confluent.cloud:9092

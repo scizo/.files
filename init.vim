@@ -1,3 +1,5 @@
+set exrc
+
 " Python providers
 let g:python_host_prog = '/usr/local/bin/python2'
 let g:python3_host_prog = '/Users/scott.nielsen/.miniconda3/bin/python'
@@ -15,17 +17,29 @@ let g:salve_auto_start_repl = 0
 
 " vim-sexp custom mappings
 let g:sexp_insert_after_wrap = 0
+"let g:sexp_mappings = {
+"    \ 'sexp_round_head_wrap_element': 'W',
+"    \ 'sexp_splice_list': 'S',
+"    \ 'sexp_swap_list_backward': 'Ó',
+"    \ 'sexp_swap_list_forward': 'Ô',
+"    \ 'sexp_swap_element_backward': '',
+"    \ 'sexp_swap_element_forward': 'Ò',
+"    \ 'sexp_emit_head_element': '∆',
+"    \ 'sexp_emit_tail_element': '˚',
+"    \ 'sexp_capture_prev_element': '˙',
+"    \ 'sexp_capture_next_element': '¬'
+"    \ }
 let g:sexp_mappings = {
     \ 'sexp_round_head_wrap_element': 'W',
     \ 'sexp_splice_list': 'S',
-    \ 'sexp_swap_list_backward': 'Ó',
-    \ 'sexp_swap_list_forward': 'Ô',
-    \ 'sexp_swap_element_backward': '',
-    \ 'sexp_swap_element_forward': 'Ò',
-    \ 'sexp_emit_head_element': '∆',
-    \ 'sexp_emit_tail_element': '˚',
-    \ 'sexp_capture_prev_element': '˙',
-    \ 'sexp_capture_next_element': '¬'
+    \ 'sexp_swap_list_backward': '<m-s-h>',
+    \ 'sexp_swap_list_forward': '<m-s-l>',
+    \ 'sexp_swap_element_backward': '<m-s-j>',
+    \ 'sexp_swap_element_forward': '<m-s-k>',
+    \ 'sexp_emit_head_element': '<m-j>',
+    \ 'sexp_emit_tail_element': '<m-k>',
+    \ 'sexp_capture_prev_element': '<m-h>',
+    \ 'sexp_capture_next_element': '<m-l>'
     \ }
 
 " vim-go settings
@@ -59,7 +73,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " Linting Engine
-Plug 'w0rp/ale'
+"Plug 'w0rp/ale'
 
 " Completion Engine
 "Plug 'roxma/nvim-completion-manager'
@@ -227,8 +241,8 @@ augroup END
 let g:lightline = {
   \ 'colorscheme': 'solarized',
   \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'fugitive'],[ 'filename' ] ]
+  \   'left': [['mode','paste'],['fugitive'],['filename']],
+  \   'right': [['lineinfo'], ['percent'], ['fileencoding', 'filetype']]
   \ },
   \ 'component_function': {
   \   'fugitive': 'LLFugitive',
@@ -279,6 +293,8 @@ endfunction
 
 function! LLFilename()
   return ('' != LLReadonly() ? LLReadonly() . ' ' : '') .
-       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != expand('%:f') ? expand('%:f') : '[No Name]') .
        \ ('' != LLModified() ? ' ' . LLModified() : '')
 endfunction
+
+set secure
