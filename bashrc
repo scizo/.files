@@ -62,13 +62,12 @@ function minutes_since_last_commit {
 
 tput init
 
-NORMAL="$(tput sgr0)"
-BLUE="$(tput setaf 4)"
-RED="$(tput setaf 1; tput bold)"
-YELLOW="$(tput setaf 3)"
-MAGENTA="$(tput setaf 5; tput bold)"
-GREEN="$(tput setaf 2)"
-CYAN="$(tput setaf 6)"
+NORMAL="\001$(tput sgr0)\002"
+BLUE="\001$(tput setaf 4)\002"
+RED="\001$(tput setaf 1; tput bold)\002"
+YELLOW="\001$(tput setaf 3)\002"
+MAGENTA="\001$(tput setaf 5; tput bold)\002"
+GREEN="\001$(tput setaf 2)\002"
 
 __gitdir ()
 {
@@ -104,7 +103,7 @@ if [ `type -t __gitdir`"" == 'function' ]; then
       fi
       local SINCE_LAST_COMMIT="${COLOR}$(parse_git_time)${NORMAL}"
       # The __git_ps1 function inserts the current git branch where %s is
-      local GIT_PROMPT=$(__git_ps1 "${MAGENTA} %s${NORMAL} ${SINCE_LAST_COMMIT}")
+      local GIT_PROMPT=`__git_ps1 "${MAGENTA} %s${NORMAL} ${SINCE_LAST_COMMIT}"`
       echo "${GIT_PROMPT}"
     else
       echo ""
@@ -118,7 +117,8 @@ fi
 
 complete -C aws_completer aws
 
-export PS1='${CYAN}\w${NORMAL}$(git_prompt) '
+#export PS1='\[$(tput setaf 4)\]\w\[$(tput sgr0)\]$(git_prompt)\[$(tput setaf 6)\] ∇  \[$(tput sgr0)\]'
+export PS1='\[$(tput setaf 6)\]\w\[$(tput sgr0)\]$(git_prompt) '
 
 export HISTCONTROL=ignoreboth # ignorespace and ignoredups
 export HISTIGNORE='ls:bg:fg:history'
