@@ -61,6 +61,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Colorschemes ans Status Line
 Plug 'iCyMind/NeoSolarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'itchyny/lightline.vim'
 
 " General Editing and Navigation
@@ -113,7 +114,8 @@ inoremap <expr> <cr> (pumvisible() ? "\<c-y>\<cr>" : "\<cr>")
 " Set the color scheme
 set termguicolors
 set background=dark
-colorscheme NeoSolarized
+"colorscheme NeoSolarized
+colorscheme solarized8_flat
 
 " Setting for tabs and indentation
 set expandtab

@@ -6,6 +6,11 @@ alias ls='ls -G'
 
 alias journal='vim $HOME/Dropbox/journal/`date "+%Y-%m-%d"`.txt.asc'
 
+primary_addr="kafka-url-here"
+primary_cluster="$HOME/.kafka/primary.properties"
+
+alias kcg="kafka-consumer-groups --bootstrap-server $primary_addr --command-config $primary_cluster"
+
 alias cl='env_name=$(cat environment.yml | shyaml get-value name); conda activate $env_name && echo activated $env_name'
 
 alias tn='tmux new-session -s'
@@ -30,11 +35,7 @@ if command -v nvim >/dev/null 2>&1; then
 fi
 
 # bash completion
-if command -v brew >/dev/null 2>&1; then
-  if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-    . $(brew --prefix)/share/bash-completion/bash_completion
-  fi
-fi
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 for f in "$HOME"/.bash.d/*; do
   [ -r "$f" ] && source "$f"
@@ -145,6 +146,7 @@ export GPGKEY=B40CC37E
 # stack (haskell) installs bins to ~/.local/bin
 export PATH="$HOME/.local/bin:$PATH"
 
+export CLOUDSDK_PYTHON=/usr/bin/python3
 export PATH=$PATH:/opt/google-cloud-sdk/bin
 source /opt/google-cloud-sdk/completion.bash.inc
 

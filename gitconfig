@@ -2,6 +2,7 @@
   co = checkout
   dc = diff --cached
   lg = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%ar%C(yellow)%d%C(reset)\n'
+  lgd = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%ai%C(yellow)%d%C(reset)\n'
   st = status
   pr = remote prune
 [color]
@@ -18,9 +19,14 @@
 [filter "trailingwhitespace"]
   clean = sed 's/[ \t]*$//'
   smudge = cat
-[hub]
-  host = code.savvysherpa.com
 [credential]
   helper = osxkeychain
 [url "git@github.com:"]
   insteadOf = https://github.com/
+[commit]
+	gpgsign = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
+	required = true
