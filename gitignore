@@ -1,7 +1,5 @@
 .DS_Store
-.rspec
-.bundle
 .bin
 .nrepl-port
-
-bin/lein
+.cpcache
+.rebel_readline_history

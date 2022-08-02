@@ -41,21 +41,21 @@ for f in "$HOME"/.bash.d/*; do
   [ -r "$f" ] && source "$f"
 done
 
-function csv_summary {
-  echo "summary(read.csv('$1'))" | r --slave --vanilla --quiet --no-save
-}
+#function csv_summary {
+#  echo "summary(read.csv('$1'))" | r --slave --vanilla --quiet --no-save
+#}
 
-function tsv_summary {
-  echo "summary(read.csv('$1',sep='\t'))" | r --slave --vanilla --quiet --no-save
-}
+#function tsv_summary {
+#  echo "summary(read.csv('$1',sep='\t'))" | r --slave --vanilla --quiet --no-save
+#}
 
 parse_git_time() {
   git log --pretty=format:'%cr' --date=relative -1
 }
 
 function minutes_since_last_commit {
-  now=`date +%s`
-  last_commit=`git log --pretty=format:'%ct' -1`
+  now=$(date +%s)
+  last_commit=$(git log --pretty=format:'%ct' -1)
   seconds_since_last_commit=$((now-last_commit))
   minutes_since_last_commit=$((seconds_since_last_commit/60))
   echo $minutes_since_last_commit
@@ -94,7 +94,7 @@ if [ `type -t __gitdir`"" == 'function' ]; then
   git_prompt() {
     local g="$(__gitdir)"
     if [ -n "$g" ]; then
-      local MINUTES_SINCE_LAST_COMMIT=`minutes_since_last_commit`
+      local MINUTES_SINCE_LAST_COMMIT=$(minutes_since_last_commit)
       if [ "$MINUTES_SINCE_LAST_COMMIT" -gt 30 ]; then
         local COLOR=${RED}
       elif [ "$MINUTES_SINCE_LAST_COMMIT" -gt 10 ]; then
@@ -104,7 +104,11 @@ if [ `type -t __gitdir`"" == 'function' ]; then
       fi
       local SINCE_LAST_COMMIT="${COLOR}$(parse_git_time)${NORMAL}"
       # The __git_ps1 function inserts the current git branch where %s is
-      local GIT_PROMPT=`__git_ps1 "${MAGENTA} %s${NORMAL} ${SINCE_LAST_COMMIT}"`
+      local GIT_PROMPT=$(__git_ps1 "${MAGENTA} %s${NORMAL} ${SINCE_LAST_COMMIT}")
+      #if [ $(git rev-parse --abbrev-ref HEAD) == "master" ]; then
+      #  tput bel;
+      #  GIT_PROMPT=" Warning: You are on the master branch, please update this repo to use trunk.${GIT_PROMPT}"
+      #fi
       echo "${GIT_PROMPT}"
     else
       echo ""
@@ -136,7 +140,7 @@ export JRUBY_OPTS="--1.9"
 export LEDGER_FILE=$HOME/Dropbox/books.ledger
 
 if [ -e /usr/libexec/java_home ]; then
-  export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+  export JAVA_HOME=$(/usr/libexec/java_home -v 11)
 fi
 
 export GPGKEY=B40CC37E
@@ -167,17 +171,21 @@ export WECHALLUSER=smniel
 export WECHALLTOKEN=DF7F8-947BA-ACF55-89C1A-0A48E-6C80E
 
 # OPAM configuration
-. /Users/scott/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+test -r /Users/scott.nielsen/.opam/opam-init/init.sh && . /Users/scott.nielsen/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
 # added by travis gem
 [ -f /Users/scott.nielsen/.travis/travis.sh ] && source /Users/scott.nielsen/.travis/travis.sh
 
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="${PATH}:${HOME}/.krew/bin"
 
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
 export PATH="$PATH:$HOME/.npm-packages/bin"
+
+#eval "$(pyenv init --path)" produces the following
+export PATH="/Users/scott.nielsen/.pyenv/shims:${PATH}"
 
 export SKIP_PLATELET_API_CHECK=1
 
@@ -186,3 +194,5 @@ export SKIP_PLATELET_API_CHECK=1
 source $HOME/.griphook/env
 
 KT_BROKERS=pkc-ep8k4.us-east4.gcp.confluent.cloud:9092
+
+complete -C /usr/local/bin/terraform terraform

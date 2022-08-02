@@ -1,4 +1,5 @@
 set exrc
+set nohidden
 
 " Python providers
 let g:python_host_prog = '/usr/local/bin/python2'
@@ -87,20 +88,21 @@ Plug 'tpope/vim-rhubarb'
 "Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'}
 Plug 'guns/vim-sexp', {'for': 'clojure'}
 Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+"Plug 'Olical/conjure'
 "Plug 'SevereOverfl0w/clojure-check', {'for': 'clojure', 'do': './install'}
 Plug 'tpope/vim-salve', {'for': 'clojure'}
 Plug 'tpope/vim-fireplace', {'for': 'clojure'}
 "Plug 'clojure-vim/acid.nvim', {'for': 'clojure', 'do': ':UpdateRemotePlugins'}
-Plug 'snoe/clj-refactor.nvim', {'for': 'clojure', 'do': ':UpdateRemotePlugins'}
+"Plug 'snoe/clj-refactor.nvim', {'for': 'clojure', 'do': ':UpdateRemotePlugins'}
 
 " JVM languages
 Plug 'tpope/vim-classpath'
 
 " Go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Python
-Plug 'bfredl/nvim-ipy', {'for': 'python', 'do': ':UpdateRemotePlugins'}
+"Plug 'bfredl/nvim-ipy', {'for': 'python', 'do': ':UpdateRemotePlugins'}
 
 " Terraform
 Plug 'hashivim/vim-terraform'
@@ -109,7 +111,7 @@ call plug#end()
 
 " nvim-completion-engine
 " hide the completion window and create a new line on enter
-inoremap <expr> <cr> (pumvisible() ? "\<c-y>\<cr>" : "\<cr>")
+"inoremap <expr> <cr> (pumvisible() ? "\<c-y>\<cr>" : "\<cr>")
 
 " Set the color scheme
 set termguicolors
@@ -166,7 +168,7 @@ nnoremap <leader>s :setlocal spell spelllang=en_us<cr>
 set wildmode=longest,list
 
 " Begin scrolling before hitting edges
-set scrolloff=7
+set scrolloff=4
 
 " Allow backspaceing over everything
 set backspace=indent,eol,start
@@ -215,22 +217,20 @@ augroup myVimrc
   autocmd!
 
   " Set preferred alternate tabing for some filetypes
-  autocmd FileType python set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
-  autocmd FileType pyrex set shiftwidth=4 tabstop=4 softtabstop=4 expandtab
-  autocmd FileType yaml set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+  autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType pyrex setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+  autocmd FileType make setlocal shiftwidth=8 tabstop=8 softtabstop=8 noexpandtab
 
-  autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
-  autocmd FileType clojure map <leader>e :Eval (dev/reset)<cr>
+  "autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
+  "autocmd FileType clojure map <leader>e :Eval (dev/reset)<cr>
 
-  autocmd FileType python nmap cpp <Plug>(IPy-RunCell)
-  autocmd FileType python vmap cpp <Plug>(IPy-Run)
-  autocmd FileType python map <leader>c <Plug>(IPy-Terminate)
+  "autocmd FileType python nmap cpp <Plug>(IPy-RunCell)
+  "autocmd FileType python vmap cpp <Plug>(IPy-Run)
+  "autocmd FileType python map <leader>c <Plug>(IPy-Terminate)
 
   " When on a fugitive tree or blob '..' navigates up to the parent tree or commit
-  autocmd User fugitive
-    \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-    \   nnoremap <buffer> .. :edit %:h<CR> |
-    \ endif
+  autocmd User FugitiveTree,FugitiveBlob nnoremap <buffer> .. :edit %:h<CR>
 
   " Deletes fugitive buffers when no longer active
   autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -281,7 +281,7 @@ endfunction
 
 function! LLReadonly()
   if &filetype == "help"
-    return ""
+    return "!"
   elseif &readonly
     return "!"
   else
