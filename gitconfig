@@ -12,6 +12,7 @@
   email = scottnielsen5@gmail.com
 [core]
   excludesfile = ~/.gitignore
+  pager = less -x2
 [github]
   user = scizo
 [push]
@@ -21,12 +22,14 @@
   smudge = cat
 [credential]
   helper = osxkeychain
-[url "git@github.com:"]
-  insteadOf = https://github.com/
+#[url "git@github.com:"]
+#  insteadOf = https://github.com/
 #[commit]
-#	gpgsign = true
+# gpgsign = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge --skip -- %f
-	process = git-lfs filter-process --skip
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge --skip -- %f
+  process = git-lfs filter-process --skip
+  required = true
+[init]
+  defaultBranch = main

@@ -4,14 +4,6 @@
 # aliases
 alias ls='ls -G'
 
-alias journal='vim $HOME/Dropbox/journal/`date "+%Y-%m-%d"`.txt.asc'
-
-primary_addr="kafka-url-here"
-primary_cluster="$HOME/.kafka/primary.properties"
-
-alias kcg="kafka-consumer-groups --bootstrap-server $primary_addr --command-config $primary_cluster"
-
-alias cl='env_name=$(cat environment.yml | shyaml get-value name); conda activate $env_name && echo activated $env_name'
 
 alias tn='tmux new-session -s'
 alias tl='tmux list-sessions'
@@ -28,17 +20,19 @@ _tmux_alias_completions()
 
 complete -F _tmux_alias_completions ta
 
-alias kc='kubectl'
 
 if command -v nvim >/dev/null 2>&1; then
-  alias vim=nvim
+  alias vim='nvim'
 fi
 
 # bash completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] && . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+#for completion in "${HOMEBREW_PREFIX}/etc/bash_completion.d"/*; do
+#  [[ -r "${completion}" ]] && source "${completion}"
+#done
 
-for f in "$HOME"/.bash.d/*; do
-  [ -r "$f" ] && source "$f"
+for f in "${HOME}/.bash.d"/*; do
+  [[ -r "$f" ]] && source "$f"
 done
 
 #function csv_summary {
@@ -120,7 +114,7 @@ else
   }
 fi
 
-complete -C aws_completer aws
+#complete -C aws_completer aws
 
 #export PS1='\[$(tput setaf 4)\]\w\[$(tput sgr0)\]$(git_prompt)\[$(tput setaf 6)\] ∇  \[$(tput sgr0)\]'
 export PS1='\[$(tput setaf 6)\]\w\[$(tput sgr0)\]$(git_prompt) '
@@ -134,65 +128,70 @@ shopt -s cmdhist
 export PAGER="less -R"
 export EDITOR=nvim
 export HOMEBREW_CC="clang"
-export RBENV_SILENCE_WARNINGS=1
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export JRUBY_OPTS="--1.9"
-export LEDGER_FILE=$HOME/Dropbox/books.ledger
+#export VIRTUAL_ENV_DISABLE_PROMPT=1
+#export LEDGER_FILE=$HOME/Dropbox/books.ledger
+
+export XDG_CONFIG_HOME=~/.config
 
 if [ -e /usr/libexec/java_home ]; then
-  export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+  jhome-list() {
+    /usr/libexec/java_home -V
+  }
+
+  jhome() {
+    export JAVA_HOME=$(/usr/libexec/java_home -F -v $1)
+  }
+
+  jhome 17
 fi
 
-export GPGKEY=B40CC37E
+#export GPGKEY=B40CC37E
 
 #eval $(direnv hook bash)
 
 # stack (haskell) installs bins to ~/.local/bin
-export PATH="$HOME/.local/bin:$PATH"
+#export PATH="$HOME/.local/bin:$PATH"
 
-export CLOUDSDK_PYTHON=/usr/bin/python3
-export PATH=$PATH:/opt/google-cloud-sdk/bin
-source /opt/google-cloud-sdk/completion.bash.inc
+if [ -d '/opt/google-cloud-sdk' ]; then
+  export CLOUDSDK_PYTHON=/usr/bin/python3
+  export PATH=$PATH:/opt/google-cloud-sdk/bin
+  source /opt/google-cloud-sdk/completion.bash.inc
+fi
 
 source <(kubectl completion bash)
-eval $(complete | grep kubectl | sed s/kubectl$/kc/)
-
-export PATH=$HOME/.miniconda3/bin:$PATH
-export PATH=$PATH:$HOME/.go/bin
+#eval $(complete | grep kubectl | sed s/kubectl$/kc/)
+source <(tkn completion bash)
 
 export PATH=".bin:$HOME/bin:$PATH"
-export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+CMSClassUnloadingEnabled -Xverify:none"
+#export BOOT_JVM_OPTIONS="-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+CMSClassUnloadingEnabled -Xverify:none"
 #export BOOT_CLOJURE_VERSION="1.7.0"
-export SBT_OPTS="-XX:MaxPermSize=256m -Xmx1024m"
+#export SBT_OPTS="-XX:MaxPermSize=256m -Xmx1024m"
 
-#export ANDROID_HOME=/usr/local/opt/android-sdk
+export PATH="$HOME/.cargo/bin:$PATH"
 
-export WECHALLUSER=smniel
-export WECHALLTOKEN=DF7F8-947BA-ACF55-89C1A-0A48E-6C80E
+#export WECHALLUSER=smniel
+#export WECHALLTOKEN=DF7F8-947BA-ACF55-89C1A-0A48E-6C80E
 
 # OPAM configuration
-test -r /Users/scott.nielsen/.opam/opam-init/init.sh && . /Users/scott.nielsen/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+#test -r /Users/scott.nielsen/.opam/opam-init/init.sh && . /Users/scott.nielsen/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
-# added by travis gem
-[ -f /Users/scott.nielsen/.travis/travis.sh ] && source /Users/scott.nielsen/.travis/travis.sh
+#export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 
-export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
-export PATH="$PATH:$HOME/.cargo/bin"
-export PATH="${PATH}:${HOME}/.krew/bin"
-
-export NPM_PACKAGES="$HOME/.npm-packages"
-export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
-export PATH="$PATH:$HOME/.npm-packages/bin"
+#export NPM_PACKAGES="$HOME/.npm-packages"
+#export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+#export PATH="$PATH:$HOME/.npm-packages/bin"
 
 #eval "$(pyenv init --path)" produces the following
-export PATH="/Users/scott.nielsen/.pyenv/shims:${PATH}"
+#export PATH="/Users/scott.nielsen/.pyenv/shims:${PATH}"
 
-export SKIP_PLATELET_API_CHECK=1
+source /opt/homebrew/opt/nvm/nvm.sh
+
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-source $HOME/.griphook/env
 
-KT_BROKERS=pkc-ep8k4.us-east4.gcp.confluent.cloud:9092
+complete -C ${HOMEBREW_PREFIX}/bin/terraform terraform
 
-complete -C /usr/local/bin/terraform terraform
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
