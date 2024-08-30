@@ -1,0 +1,23 @@
+{:paths ["/Users/scott/.config/clojure/utils"]
+ :aliases
+ {:custom {:extra-paths ["/Users/scott/.config/clojure/utils"]
+           :extra-deps {org.clojure/tools.logging {:mvn/version "1.3.0"}
+                        org.clojure/tools.namespace {:mvn/version "1.5.0"}
+
+                        im.chit/lucid.core.inject {:mvn/version "1.3.13"}
+                        io.aviso/pretty {:mvn/version "1.4.4"}
+                        lambdaisland/kaocha {:mvn/version "1.90.1383"}}}
+  :myrepl {:extra-paths ["/Users/scott/.config/clojure/myrepl"]
+           :extra-deps {cider/cider-nrepl {:mvn/version "0.48.0"}
+                        com.bhauman/rebel-readline {:mvn/version "0.1.4"}
+                        ;; This will be superseded in most places
+                        ;; Trying to fix a weird dependency issue right now
+                        nrepl/nrepl {:mvn/version "0.9.0"}
+                        ;nrepl/nrepl {:mvn/version "1.1.1"}
+                        }
+           :jvm-opts ["-XX:-OmitStackTraceInFastThrow"]
+           :main-opts ["-m" "myrepl"]}
+  :rebel {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
+          :main-opts ["-m" "rebel-readline.main"]}
+  :outdated {:deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
+             :main-opts ["-m" "antq.core"]}}}

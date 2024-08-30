@@ -26,3 +26,10 @@ else
   mkdir -p $HOME/.config/nvim
   ln -s $dir/init.vim $HOME/.config/nvim/init.vim
 fi
+
+if [ -e "$HOME/.config/clojure" ]; then
+  echo ".config/clojure exists ... skipping"
+else
+  echo "linking clojure"
+  ln -s $dir/clojure $HOME/.config/clojure
+fi
