@@ -1,10 +1,15 @@
 [alias]
   co = checkout
+  dti = -c diff.external=difft diff
   dc = diff --cached
+  dtc = -c diff.external=difft diff --cached
+  dtl = -c diff.external=difft log -p --ext-diff
+  dts = -c diff.external=difft show --ext-diff
   lg = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%ar%C(yellow)%d%C(reset)\n'
   lgd = log --graph --pretty=format:' %C(red)%h%C(reset) - %s\n %C(blue)<%an> %C(green)%ai%C(yellow)%d%C(reset)\n'
   st = status
   pr = remote prune
+  stu = stash --include-untracked
 [color]
   ui = auto
 [user]
@@ -33,3 +38,9 @@
   required = true
 [init]
   defaultBranch = main
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential

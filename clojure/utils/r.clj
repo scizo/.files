@@ -5,6 +5,15 @@
 
     [lucid.core.inject :as inject]))
 
+(defn clean-ns [ns-sym]
+  (let [core (find-ns 'clojure.core)]
+    (->> (ns-map ns-sym)
+         (filter (fn [[k v]] (and (var? v) (not= (:ns (meta v)) core))))
+         (mapv (fn [[k v]] (ns-unmap ns-sym k))))
+    (->> (ns-aliases ns-sym)
+         (mapv (fn [[k v]] (ns-unalias ns-sym k))))
+    true))
+
 (defn dbg>
   ([x] (pp/pprint x) x)
   ([x msg] (println msg) (pp/pprint x) x)

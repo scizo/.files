@@ -10,7 +10,7 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_extensions = ['tag']
 let g:ctrlp_switch_buffer = 'h'
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = '\v[\/](target|out|nashorn_code_cache|node_modules|coverage)$'
+let g:ctrlp_custom_ignore = '\v[\/](target|out|nashorn_code_cache|node_modules|coverage|public\/js)$'
 "let g:ctrlp_user_command = 'find ~/e/prisma-server -type f | grep -vE -e node_modules -e .git -e .cache'
 
 " vim-salve settings
@@ -42,6 +42,19 @@ let g:sexp_insert_after_wrap = 0
 "    \ 'sexp_capture_prev_element': '<m-h>',
 "    \ 'sexp_capture_next_element': '<m-l>'
 "    \ }
+"
+" Turning off sexp_align_comments because it conflicts with
+" my personal <leader>a
+" Remapping sexp 'smart paste' from clobering standard vim
+let g:sexp_mappings = {
+    \ 'sexp_align_comments': '<localleader>8',
+    \ 'sexp_put_before': '<localleader>P',
+    \ 'sexp_put_after': '<localleader>p',
+    \ 'sexp_replace': {'x': '<localleader>p',
+    \                  'n': '<localleader><localleader>p'},
+    \ 'sexp_replace_P': {'x': '<localleader>P',
+    \                    'n': '<localleader><localleader>P'},
+    \ }
 
 " Clojure indentation
 let g:clojure_fuzzy_indent_patterns = ['^with','^def','^let','action$','^backend']
@@ -63,9 +76,10 @@ let g:nvim_ipy_perform_mappings = 0
 
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'folke/snacks.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-" Colorschemes ans Status Line
+" Colorschemes and Status Line
 Plug 'itchyny/lightline.vim'
 Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'morhetz/gruvbox'
@@ -132,9 +146,8 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
-" Git commit file completion
-"Plug 'nvim-lua/plenary.nvim'
-"Plug 'petertriho/cmp-git'
+" MJML
+" Plug 'amadeus/vim-mjml'
 
 " Typescript
 
@@ -271,9 +284,17 @@ function! LoadEmail()
 endfunction
 
 function! LoadPayerInputs()
-  let command="(do (in-ns 'multiple-payers) (def email \"" . expand("<cWORD>") . "\") (def options {:company nil}) (def registrations (:registrations (query :registration-info {:email email}))) (def registration (select-registration registrations options)) (def inputs (build-payment-inputs registration options)))"
+  let command="(do (in-ns 'multiple-payers) (def email \"" . expand("<cWORD>") . "\") (def options {:company nil}) (def registrations (:registrations (gql/query operations :registration-info {:email email}))) (def registration (select-registration registrations options)) (def inputs (build-payment-inputs registration options)))"
   call fireplace#eval(command)
   Eval [registration inputs]
+endfunction
+
+function! ClojureScriptRepl()
+  CljEval (let [builds (into [] (shadow.cljs.devtools.api/active-builds))] (case (count builds) 0 (throw (ex-info "no active builds!" {})) 1 (shadow.cljs.devtools.api/repl (first builds)) (do (println "Pick one of the following:") (doseq [[i build-id] (map-indexed vector builds)] (println i build-id)) (println) (let [choice (Integer. (read-line))] (shadow.cljs.devtools.api/repl (get builds choice))))))
+endfunction
+
+function! StopClojureScriptRepl()
+  CljsEval :repl/quit
 endfunction
 
 map <leader>f :call Reconcile()<cr>
@@ -281,7 +302,7 @@ map <leader>g :call ReconcileOne()<cr>
 map <leader>d :call LoadEmail()<cr>
 map <leader>c :call LoadPayerInputs()<cr>
 map <BS> :call GgrepCursor()<cr>
-map <leader>c :cclose<cr>
+"map <leader>c :cclose<cr>
 
 nnoremap <leader>t :FuzzyOpen<cr>
 
@@ -293,13 +314,18 @@ augroup myVimrc
   " Set preferred alternate tabing for some filetypes
   autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
   autocmd FileType pyrex setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType bzl setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
   autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
   autocmd FileType make setlocal shiftwidth=8 tabstop=8 softtabstop=8 noexpandtab
-  autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 softtabstop=2 noexpandtab
-  autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 noexpandtab
-  autocmd FileType vue setlocal shiftwidth=2 tabstop=2 softtabstop=2 noexpandtab
-  autocmd FileType sql setlocal shiftwidth=2 tabstop=2 softtabstop=2 noexpandtab
-  autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2 noexpandtab
+  autocmd FileType typescript setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType vue setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+  autocmd FileType sql setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+  autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+
+  autocmd FileType clojure nnoremap <buffer> <localleader>r :call ClojureScriptRepl()<cr>
+  autocmd FileType clojure nnoremap <buffer> <localleader>R :call StopClojureScriptRepl()<cr>
+  autocmd FileType clojure setlocal colorcolumn=95
 
   "autocmd FileType clojure map <leader>r :Eval (r/refresh)<cr>
   "autocmd FileType clojure map <leader>e :Eval (dev/reset)<cr>
@@ -383,6 +409,8 @@ endfunction
 set secure
 
 lua <<EOF
+  require("snacks").setup({})
+
   -- Set up mason
   require("mason").setup()
 
@@ -455,10 +483,10 @@ lua <<EOF
   end
 
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  require('lspconfig')['tsserver'].setup {
+  vim.lsp.config('ts_ls', {
     capabilities = capabilities,
     --on_attach = on_attach,
-  }
+  })
 
   -- Global mappings.
   -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -498,7 +526,7 @@ lua <<EOF
     end,
   })
 
-  require('nvim-treesitter.configs').setup {
+  require('nvim-treesitter.config').setup {
     -- A list of parser names, or "all" (the first five listed parsers should always be installed)
     ensure_installed = {"c", "lua", "vim", "vimdoc", "query", "clojure"},
 
@@ -540,4 +568,6 @@ lua <<EOF
       additional_vim_regex_highlighting = false,
     }
   }
+
+  require("codereview").setup()
 EOF

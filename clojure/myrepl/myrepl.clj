@@ -16,7 +16,7 @@
                  0)
         server (nrepl/start-server :port port :handler (nrepl-handler))]
     (spit "./.nrepl-port" (:port server))
-    (println "Started nrepl on port" (:port server))
+    (println "MYREPL! - started nrepl on port" (:port server))
     (apply rebel/-main (rest *command-line-args*))
     (nrepl/stop-server server)
     (io/delete-file "./.nrepl-port" :no-fail)

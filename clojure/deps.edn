@@ -12,7 +12,7 @@
                         com.bhauman/rebel-readline {:mvn/version "0.1.4"}
                         ;; This will be superseded in most places
                         ;; Trying to fix a weird dependency issue right now
-                        nrepl/nrepl {:mvn/version "0.9.0"}
+                        nrepl/nrepl {:mvn/version "1.5.2"}
                         ;nrepl/nrepl {:mvn/version "1.1.1"}
                         }
            :jvm-opts ["-XX:-OmitStackTraceInFastThrow"]

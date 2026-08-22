@@ -5,7 +5,7 @@ fi
 dir=$(cd "$(dirname "$BASH_SOURCE")"; pwd)
 
 if [ $# -eq 0 ]; then
-  files=$(ls $dir | grep -v 'setup.sh' | grep -v '.gitignore' | grep -v '.gitmodules' | grep -v 'init.vim')
+  files=$(ls $dir | grep -v 'setup.sh' | grep -v '.gitignore' | grep -v '.gitmodules' | grep -v 'init.vim' | grep -v 'clojure' | grep -v 'ghostty')
 else
   files=$@
 fi
@@ -32,4 +32,11 @@ if [ -e "$HOME/.config/clojure" ]; then
 else
   echo "linking clojure"
   ln -s $dir/clojure $HOME/.config/clojure
+fi
+
+if [ -e "$HOME/.config/ghostty" ]; then
+  echo ".config/ghostty exists ... skipping"
+else
+  echo "linking ghostty"
+  ln -s $dir/ghostty $HOME/.config/ghostty
 fi
